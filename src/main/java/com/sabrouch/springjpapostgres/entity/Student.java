@@ -29,4 +29,11 @@ public class Student {
     private String email;
     @Column(nullable = false)
     private Integer age;
+
+    public Student(String name, String lastname, String email, Integer age) {
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+        this.age = age;
+    }
 }

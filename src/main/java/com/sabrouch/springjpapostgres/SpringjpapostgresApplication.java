@@ -1,5 +1,6 @@
 package com.sabrouch.springjpapostgres;
 
+import com.github.javafaker.Faker;
 import com.sabrouch.springjpapostgres.dao.StudentRepository;
 import com.sabrouch.springjpapostgres.entity.Student;
 import org.springframework.boot.CommandLineRunner;
@@ -20,25 +21,20 @@ public class SpringjpapostgresApplication {
     @Bean
     CommandLineRunner commandLineRunner(StudentRepository studentRepository){
         return args -> {
-            Student s1 = new Student("sabri", "baazaoui", "baazaouisabri@gmail.com", 30);
-            Student s2 = new Student("Med", "baazaouzi", "baazaouissabri@gmail.com", 20);
-
-            List<Student> l =new ArrayList<>();
-            l.add(s1);
-            l.add(s2);
-            List<Student> s11 = List.of(s1, s2);
-            studentRepository.saveAll(s11);
-           // l.forEach(student -> studentRepository.save(student));
-            System.out.println(studentRepository.count());
-            //studentRepository.deleteById(2L);
-            List<Student> all = studentRepository.findAll();
-            all.forEach(System.out::println);
-            //studentRepository.findById(2l).ifPresentOrElse(System.out::println,()-> System.out.println("is not exist"));
-           // studentRepository.findById(3l).ifPresentOrElse((student)->System.out.println(student),()-> System.out.println("is not exist"));
-            studentRepository.findStudentByAge(20).ifPresentOrElse(System.out::println,()-> System.out.println("not exist"));
-            studentRepository.findStudentByAgeBetween(20, 22).ifPresentOrElse(System.out::println,()-> System.out.println("not exist"));
+          generateListOfStudent(studentRepository);
 
         };
+    }
+    private void generateListOfStudent(StudentRepository studentRepository){
+        Faker f = new Faker();
+        for (int i = 0; i < 20; i++) {
+            String name = f.name().firstName(); // Miss Samanta Schmidt
+            String lastName = f.name().lastName(); // Barton
+            String email = String.format("%s%s@gmail.com", name, lastName);
+            int age = f.number().numberBetween(17,65);// Emory
+            Student student = new Student(name, lastName,email,age);
+            studentRepository.save(student);
+        }
     }
 
 

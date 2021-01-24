@@ -23,7 +23,9 @@ public class SpringjpapostgresApplication {
     CommandLineRunner commandLineRunner(StudentRepository studentRepository){
         return args -> {
           generateListOfStudent(studentRepository);
-          studentRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+          List orders;
+         // Sort sort  = Sort.by("name").ascending().and(Sort.by(Sort));
+          studentRepository.findAll(Sort.by(Sort.Direction.ASC, "age")).forEach(System.out::println);
 
         };
     }

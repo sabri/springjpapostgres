@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class SpringjpapostgresApplication {
     CommandLineRunner commandLineRunner(StudentRepository studentRepository){
         return args -> {
           generateListOfStudent(studentRepository);
+          studentRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
 
         };
     }

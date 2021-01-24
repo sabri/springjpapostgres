@@ -21,11 +21,11 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     @Column(nullable = false)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "Text")
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "Text")
     private String lastname;
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "Text")
     private String email;
     @Column(nullable = false)
     private Integer age;

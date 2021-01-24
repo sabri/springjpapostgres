@@ -1,12 +1,16 @@
 package com.sabrouch.springjpapostgres;
 
 import com.github.javafaker.Faker;
+import com.sabrouch.springjpapostgres.dao.StudentIdCardRepository;
 import com.sabrouch.springjpapostgres.dao.StudentRepository;
 import com.sabrouch.springjpapostgres.entity.Student;
+import com.sabrouch.springjpapostgres.entity.StudentIdCard;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
@@ -20,25 +24,23 @@ public class SpringjpapostgresApplication {
         SpringApplication.run(SpringjpapostgresApplication.class, args);
     }
     @Bean
-    CommandLineRunner commandLineRunner(StudentRepository studentRepository){
+    CommandLineRunner commandLineRunner(StudentRepository studentRepository, StudentIdCardRepository studentIdCardRepository){
         return args -> {
-          generateListOfStudent(studentRepository);
-          List orders;
-         // Sort sort  = Sort.by("name").ascending().and(Sort.by(Sort));
-          studentRepository.findAll(Sort.by(Sort.Direction.ASC, "age")).forEach(System.out::println);
-
-        };
+         generateListOfStudent(studentRepository,studentIdCardRepository);
+         };
     }
-    private void generateListOfStudent(StudentRepository studentRepository){
+    private void generateListOfStudent(StudentRepository studentRepository,StudentIdCardRepository studentIdCardRepository){
         Faker f = new Faker();
-        for (int i = 0; i < 20; i++) {
+
             String name = f.name().firstName(); // Miss Samanta Schmidt
             String lastName = f.name().lastName(); // Barton
             String email = String.format("%s%s@gmail.com", name, lastName);
+
             int age = f.number().numberBetween(17,65);// Emory
             Student student = new Student(name, lastName,email,age);
-            studentRepository.save(student);
-        }
+            StudentIdCard st = new StudentIdCard("1234567899", student);
+            studentIdCardRepository.save(st);
+
     }
 
 

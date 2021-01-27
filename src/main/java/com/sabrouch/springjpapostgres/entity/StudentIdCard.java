@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 
 /**
  * Created by sabrouch.
@@ -25,12 +24,21 @@ public class StudentIdCard {
 
     @Column( columnDefinition = "Text", nullable = false)
     private String cardNumber;
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Student_id", referencedColumnName = "id")
+    @JoinColumn(
+            name = "student_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(
+                    name = "student_id_fk"
+            )
+    )
     private Student student;
 
     public StudentIdCard( String cardNumber, Student student) {
         this.cardNumber = cardNumber;
         this.student = student;
     }
+
+
 }

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sabrouch.
@@ -29,6 +31,18 @@ public class Student {
     private String email;
     @Column(nullable = false)
     private Integer age;
+    @OneToOne(
+            mappedBy = "student",
+            orphanRemoval = true
+    )
+    private StudentIdCard studentIdCard;
+    @OneToMany(
+            mappedBy = "student",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            fetch = FetchType.LAZY
+    )
+    private List<Book> books = new ArrayList<>();
 
     public Student(String name, String lastname, String email, Integer age) {
         this.name = name;
@@ -36,4 +50,6 @@ public class Student {
         this.email = email;
         this.age = age;
     }
+
+
 }
